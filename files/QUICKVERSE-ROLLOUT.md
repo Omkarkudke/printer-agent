@@ -15,7 +15,8 @@
 
 ## Per-shop 2-min flow (one guy)
 ```powershell
-.\Install-QuickVerse.ps1 -SiteUrl "https://<your-app>.vercel.app/" -AddToStartup -NoSleep
+.\Install-QuickVerse.ps1 -SiteUrl "http://vendor.quickverse.in/" -AddToStartup -NoSleep
+# Fallback (Vercel): -SiteUrl "https://vendor-dashboard-quickverse.vercel.app/"
 ```
 HTTP-interim alternative (same-origin serve, no Vercel): `-SiteUrl "http://prd.quickverse.in/vendor/"`.
 1. Driver: EPSON APD6 for TM-T82X, paper 80mm. Queue must appear in Settings → Printers.

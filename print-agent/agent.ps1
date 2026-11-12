@@ -1,4 +1,4 @@
-﻿# QuickVerse Print Agent v1.4.0 - pure PowerShell, ZERO installs.
+# QuickVerse Print Agent v1.4.0 - pure PowerShell, ZERO installs.
 # Runs on any Windows 10/11 out of the box. No Node, no npm, no exe.
 # Listens only on http://127.0.0.1:1818 - unreachable from network.
 # Dashboard calls: POST http://127.0.0.1:1818/print  { printer, text }
@@ -13,7 +13,9 @@ $AGENT_VERSION = "1.4.0"
 # T09: dashboard-only CORS. If the dashboard is ever served from a new
 # domain, this is the single place to update.
 $ALLOWED_ORIGINS = @(
-    "https://vendor-dashboard-quickverse.vercel.app",
+    "http://vendor.quickverse.in",
+    "https://vendor.quickverse.in",
+    "https://vendor-dashboard-quickverse.vercel.app", # fallback
     "http://prd.quickverse.in",
     "http://localhost:5173",
     "http://127.0.0.1:5173"

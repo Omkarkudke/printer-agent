@@ -17,7 +17,7 @@
 # and started the same way the agent always starts (its scheduled task).
 param(
     [string] $AgentDir = $PSScriptRoot,
-    [string] $BaseUrl = "https://vendor-dashboard-quickverse.vercel.app/agent",
+    [string] $BaseUrl = "http://vendor.quickverse.in/agent",
     [int] $Port = 1818,
     [string] $TaskName = "QuickVerse Print Agent",
     [int] $HealthTimeoutSec = 30,
@@ -140,11 +140,10 @@ if (-not $haveMutex) { Write-UpdateLog "another update check is running - exitin
 
 $staging = Join-Path $AgentDir "update-staging"
 try {
-    # Https only - a plain-http manifest could be swapped on the way. Loopback
-    # is allowed so the test harness can serve a fake release.
+    # Https or trusted vendor domain - loopback is allowed for test harness.
     $uri = [Uri]$BaseUrl
-    if ($uri.Scheme -ne 'https' -and -not $uri.IsLoopback) {
-        Write-UpdateLog "REFUSED: update URL must be https ($BaseUrl)"
+    if ($uri.Scheme -ne 'https' -and $uri.Host -ne 'vendor.quickverse.in' -and -not $uri.IsLoopback) {
+        Write-UpdateLog "REFUSED: update URL must be https or trusted vendor domain ($BaseUrl)"
         exit $EXIT_CONFIG
     }
     $keyXml = $PUBLIC_KEY_XML

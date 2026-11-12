@@ -1,4 +1,4 @@
-﻿# QuickVerse installer test harness - plain PowerShell 5.1, no Pester.
+# QuickVerse installer test harness - plain PowerShell 5.1, no Pester.
 # Vendor PCs have no modules, and this machine only has Pester 3.4.
 # Static parse + assertions only - never runs the installer (it mutates the
 # real machine: scheduled tasks, registry, Startup folder).
@@ -42,7 +42,7 @@ $content = Get-Content -Raw -Path $installerPath
 $paramAst = @($ast.ParamBlock.Parameters | Where-Object { $_.Name.VariablePath.UserPath -eq 'SiteUrl' })
 $defaultSiteUrl = $null
 if (($paramAst.Count -eq 1) -and $paramAst[0].DefaultValue) { $defaultSiteUrl = $paramAst[0].DefaultValue.Value }
-Assert-That 'TC2 happy: default $SiteUrl is the live host' ($defaultSiteUrl -eq "https://vendor-dashboard-quickverse.vercel.app/") ("got [" + $defaultSiteUrl + "]")
+Assert-That 'TC2 happy: default $SiteUrl is the live host' ($defaultSiteUrl -eq "http://vendor.quickverse.in/") ("got [" + $defaultSiteUrl + "]")
 
 $hasDeadUrl = $content -match "quickverse-vendor-dashboard"
 Assert-That "TC2 happy: dead URL 'quickverse-vendor-dashboard' appears nowhere in the file" (-not $hasDeadUrl) "dead URL substring found in file"

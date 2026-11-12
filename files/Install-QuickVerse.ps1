@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     QuickVerse 2-min shop setup: dashboard shortcut + print agent v1.4.0 (EPSON TM-T82X, no Node).
 
@@ -12,7 +12,11 @@
       6. Prints 42-col self-test slip + PASS/FAIL checklist
 
 .EXAMPLE
-    Vercel production (HTTPS, proxy to HTTP backend - default path):
+    Production (default):
+    .\Install-QuickVerse.ps1 -SiteUrl "http://vendor.quickverse.in/" -AddToStartup -NoSleep
+
+.EXAMPLE
+    Vercel fallback:
     .\Install-QuickVerse.ps1 -SiteUrl "https://vendor-dashboard-quickverse.vercel.app/" -AddToStartup -NoSleep
 
 .EXAMPLE
@@ -25,7 +29,7 @@
 
 [CmdletBinding()]
 param(
-    [string] $SiteUrl = "https://vendor-dashboard-quickverse.vercel.app/",
+    [string] $SiteUrl = "http://vendor.quickverse.in/",
     [string] $AgentSource = "",
     [string] $AgentDest = "C:\QuickVerse\print-agent",
     [string] $ShortcutName = "QuickVerse Vendor",

@@ -2,7 +2,7 @@
 
 One link, one zip, 2 minutes per shop. No cost. Nothing to install except the printer driver.
 
-Dashboard lives at: **https://vendor-dashboard-quickverse.vercel.app/**
+Dashboard lives at: **http://vendor.quickverse.in/** (Fallback: https://vendor-dashboard-quickverse.vercel.app/)
 
 ## What to do on a new billing PC (Windows)
 

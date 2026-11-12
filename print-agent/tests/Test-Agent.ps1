@@ -1,4 +1,4 @@
-﻿# QuickVerse Print Agent test harness - plain PowerShell 5.1, no Pester.
+# QuickVerse Print Agent test harness - plain PowerShell 5.1, no Pester.
 # Vendor PCs have no modules, and this machine only has Pester 3.4.
 # Runs the agent on port 18181 so it never fights the production agent on 1818.
 # Exit code = number of failed assertions (0 = all green).
@@ -468,7 +468,8 @@ try {
         # --- non-browser caller (no Origin header at all), must never emit a
         # --- wildcard, and must match the allowlist literally - never by
         # --- substring or pattern.
-        $allowedOrigin = "https://vendor-dashboard-quickverse.vercel.app"
+        $allowedOrigin = "http://vendor.quickverse.in"
+        $fallbackOrigin = "https://vendor-dashboard-quickverse.vercel.app"
         $deniedOrigin = "https://evil.example.com"
         $lookalikeOrigin = "https://evil-vendor-dashboard-quickverse.vercel.app.attacker.com"
         $localhostOrigin = "http://localhost:5173"
@@ -480,6 +481,9 @@ try {
         Assert-That "CORS-TC2 allowed: GET /status with an allowed Origin returns 200" ($corsAllowed.code -eq 200) ("got " + $corsAllowed.code)
         Assert-That "CORS-TC2 allowed: Access-Control-Allow-Origin exactly echoes the allowed origin" ([string]$corsAllowed.headers["Access-Control-Allow-Origin"] -eq $allowedOrigin) ("got [" + $corsAllowed.headers["Access-Control-Allow-Origin"] + "]")
         Assert-That "CORS-TC3 PNA: the allowed response also carries Access-Control-Allow-Private-Network: true" ([string]$corsAllowed.headers["Access-Control-Allow-Private-Network"] -eq "true") ("got [" + $corsAllowed.headers["Access-Control-Allow-Private-Network"] + "]")
+
+        $corsFallback = Invoke-Agent "GET" "/status" $null 10 $null @{ Origin = $fallbackOrigin }
+        Assert-That "CORS-TC2b fallback: GET /status with fallback Vercel Origin returns 200" ($corsFallback.code -eq 200) ("got " + $corsFallback.code)
 
         $corsDenied = Invoke-Agent "GET" "/status" $null 10 $null @{ Origin = $deniedOrigin }
         Assert-That "CORS-TC4 denied: GET /status with a disallowed Origin returns no Access-Control-Allow-Origin header" ($null -eq $corsDenied.headers["Access-Control-Allow-Origin"]) ("got [" + $corsDenied.headers["Access-Control-Allow-Origin"] + "]")
